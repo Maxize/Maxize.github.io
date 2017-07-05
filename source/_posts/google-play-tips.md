@@ -6,6 +6,8 @@ description: Google Play 之支付问题
 tags: [pay, checkout, google play]
 ---
 
+## 问题汇总
+
 * 需要验证身份。您需要登录自己的Google账号
     - 后端的计费点跟后台的计费点不一致
     - package_name + ID (recommend)
