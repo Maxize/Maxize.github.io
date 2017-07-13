@@ -8,7 +8,7 @@ tags: [Mac, sips, skill]
 
 ## 前言
 
-使用 Mac OSX 的过程中，发现需要调整图片的大小，以前在 windows 都是采用格式工厂或者 PhotoShop 等工具进行修改，当然我也用 Python 写过一个脚本，[看这里](http://amnon.win/2017/07/13/use-python-to-resize-images/)。但后面发现在 Mac 下有更方便处理的方式，喜出望外呀。
+使用 Mac OSX 的过程中，发现需要调整图片的大小，以前在 windows 都是采用格式工厂或者 PhotoShop 等工具进行修改，当然我也用 Python 写过一个脚本，[看这里](http://amnon.win/2017/07/13/use-python-to-resize-images/)。但后面发现在 Mac 下有更方便处理的方式，喜出望外。
 
 ## Sips
 
