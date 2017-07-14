@@ -68,7 +68,7 @@ tags: [lua, code style]
     for _, v in pairs(t) then  
     end
     ```
-- UIEditor控件命名规则
+- UIEditor 控件命名规则
     ```lua
     Image            采用 imgXxx
     Button           采用 btnXxx
@@ -78,7 +78,7 @@ tags: [lua, code style]
     CheckBox         采用 cBoxXxx
     CheckBoxGroup    采用 cBoxGroupXxx
     TextView         采用 tvXxx
-    EditText         采用 eTxXxx
+    EditText         采用 etTxXxx
     EditTextView     采用 etTvXxx
     View             采用 viewXxx
     ListView         采用 lvXxx
@@ -87,8 +87,7 @@ tags: [lua, code style]
     Slider           采用 sliderXx
     ```
 ```
-任何地方命名禁止使用 arg，该名字在旧版 lua（<5.1) 中用于提供可变变量的支持（高版本
-lua在编译时可以决定是否兼容此特性）。
+任何地方命名禁止使用 arg，该名字在旧版 lua（<5.1) 中用于提供可变变量的支持（高版本 lua 在编译时可以决定是否兼容此特性）。
 ```
 
 ## Lua 书写
