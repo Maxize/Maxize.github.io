@@ -53,7 +53,7 @@ tags: code review
 - 使用 [upsource](https://www.jetbrains.com/upsource/) 构建后台，让我们轻松愉快的 Code Review
 - 地址：[http://192.168.97.2:40001](http://192.168.97.2:40001)
 
-**Upsource能为代码审查提供哪些便利**
+**Upsource 能为代码审查提供哪些便利**
 
 - 对多种类型的代码库与软件开发语言进行代码浏览
 - 对同一个代码库的多个修订版本进行浏览，并且通过一个图形化工具显示多个修订版本之间的关系

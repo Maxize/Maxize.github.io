@@ -6,7 +6,7 @@ description: 巧用 sublime 正则表达式，轻松替换文本
 tags: sublime
 ---
 ### 使用正则表达式
-* 历史遗留问题，现在看到关于这种样式的lua代码暗不爽
+* 历史遗留问题，现在看到关于这种样式的 lua 代码暗不爽
 ```Lua
     class.func = function ( self )
 ```
@@ -14,7 +14,7 @@ tags: sublime
 ```Lua
     function class:func ()
 ```
-* 比较懒，一个个替换是在太麻烦了，幸好sublime有正则匹配，好吧。
+* 比较懒，一个个替换是在太麻烦了，幸好 sublime 有正则匹配，好吧。
 * 开启正则匹配，**ctrl+H** 调出替换 面板，点击 左下角 **'.*'**
 * 所以正确的姿势是：
 ```Lua
