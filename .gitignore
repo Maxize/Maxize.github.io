@@ -5,6 +5,7 @@ db.json
 node_modules/
 public/
 .deploy*/
+themes/amnon_bk
 themes/landscape/
 themes/spfk/
 *~
