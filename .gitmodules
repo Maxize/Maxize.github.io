@@ -1,0 +1,3 @@
+[submodule "themes/amnon"]
+	path = themes/amnon
+	url = https://github.com/Maxize/hexo-theme-amnon.git
