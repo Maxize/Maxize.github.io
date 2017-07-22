@@ -11,7 +11,7 @@ tags: Git
 
 ![pull_git_commit_1](how-to-pull-the-remote-commit/pull_git_commit_1.jpg)
 
-Git 不同于 SVN 就在于你的本地修改如果有改动（文件远程有），那么你需要对他进行安置才可以更新，所以每次都很懵逼，但是一旦你习惯了做法，其实也没那么复杂。
+Git 不同于 SVN 就在于你操作的本地文件（版本控制中）有修改，那么你需要对他进行安置（操作）才可以更新，不像 SVN 每次直接 `update` 再 `commit` 就好了，Git 需要 **action** 本地再进行 **update**，所以每次都很懵逼，但是一旦你习惯了，其实也没那么复杂，无非就是手法不一致而已。
 
 ## 操作
 
