@@ -119,6 +119,18 @@ amnon:
         site_visit: Geek 到访数
         page_visit: 本页阅读量
     TipTitle: true
+    # hexo sitemap
+    sitemap:
+        path: sitemap.xml
+    baidusitemap:
+        path: baidusitemap.xml
+
+    nofollow:
+        enable: true
+        exclude: # 例外的链接，可将友情链接放置此处
+        - blog.codingnow.com
+        - mindhacks.cn
+
 ## end amnon theme setting
 stylus:
     compress: true
