@@ -17,7 +17,7 @@ tags: [study, habit]
 3. 有一些坏毛病
 4. 主次不分
 
-带着这些问题，然后重新看了「一直以来伴随我的一些学习习惯」[一](http://mindhacks.cn/2008/09/17/learning-habits-part1/) [二](http://mindhacks.cn/2008/09/17/learning-habits-part2/) [三](http://mindhacks.cn/2008/09/17/learning-habits-part3/)，记录了下面这张思维导图，给有需要的也一起看看，共勉吧。
+带着这些问题，然后重新看了「一直以来伴随我的一些学习习惯」[一](http://mindhacks.cn/2008/07/08/learning-habits-part1/) [二](http://mindhacks.cn/2008/07/20/learning-habits-part2/) [三](http://mindhacks.cn/2008/09/17/learning-habits-part3/)，记录了下面这张思维导图，给有需要的也一起看看，共勉吧。
 
 ## 内容
 
