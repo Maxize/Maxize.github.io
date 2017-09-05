@@ -1,6 +1,6 @@
 ---
 title: 那些年我做过一些关于游戏的性能优化
-date: 2017-09-01 12:20:04
+date: 2017-08-31 18:20:04
 categories: Skills
 description: 为什么我们的游戏只有 20 帧，别人的游戏 60 帧，而且这么流畅，耗电量少，手机不烫，你看看，你要怎么解决？明天给我方案！
 tags: [optimization, performance, 性能优化]
