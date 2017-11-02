@@ -26,9 +26,11 @@ cocos2dx 从 3.0 开始支持自动批量渲染，不过也是没能改变在需
 
 * 版本的改变，你是否已经准备好了？
 
-3.7 是一个比较大的改变，使用之前的版本的项目估计只能保持在 3.6.5 了，而相对于新项目，还是比较推荐 3.7+ 进行开发的，因为废弃了很多代码，但是也让引擎更加轻便。
+3.7 是一个比较大的改变，使用之前的版本的项目估计只能保持在 3.6.5 了，而相对于新项目，还是比较推荐 3.7+ 进行开发的，因为废弃了很多代码（当然有顺手的代码，也有低效的代码），但是也让引擎更加轻便。
 
 我印象深刻的是在使用框架提供的创建文本的方法时，不同的方法耗时不一样，这个不细抠你真的不会发现。这是我简单写的测试代码，有兴趣的可以测试一下，记得设备不要太高级哦，高级的设备很容易忽略了很多问题。
+
+**建议：**如果没有特殊要求，采用 `cc.Label:createWithSystemFont()` 进行创建普通文本吧。
 
 ```lua
     local socket = require("socket")
@@ -65,9 +67,30 @@ cocos2dx 从 3.0 开始支持自动批量渲染，不过也是没能改变在需
 create label1 cost time =   0.00021910667419434
 create label2 cost time =   0.00051999092102051
 create label3 cost time =   7.5101852416992e-05
+
+-- 提供 5 组在 i9300 上的测试数据
+create label1 cost time =    0.0022070407867432
+create label2 cost time =    0.0037410259246826
+create label3 cost time =    0.00059700012207031
+
+create label1 cost time =    0.00055098533630371
+create label2 cost time =    0.0039401054382324
+create label3 cost time =    0.00021910667419434
+
+create label1 cost time =    0.00037097930908203
+create label2 cost time =    0.014042139053345
+create label3 cost time =    0.00020599365234375
+
+create label1 cost time =    0.00038290023803711
+create label2 cost time =    0.003803014755249
+create label3 cost time =    0.00023102760314941
+
+create label1 cost time =    0.00037002563476563
+create label2 cost time =    0.0037879943847656
+create label3 cost time =    0.00079107284545898
 ```
 
-而我去探寻这个问题的时候就发现，quick framework 在为了提供一些更友好的借口的时候做了一些没必要的事，在 UILabel 的 ctor 中，调用了 `makeUIControl_(self)` 这个方法会耗时多 1ms. 虽然你看来 1ms 不多，但是作为一个使用频率特别高的基础 UI，特别是在列表中使用的时候，会在一帧创建多几个文本，就会造成卡帧了。所谓细数惊长计，能省一点是一点。
+而我去探寻这个问题的时候就发现，Quick framework 在为了提供一些更友好的借口的时候做了一些没必要的事，在 `UILabel` 的 `ctor` 中，调用了 `makeUIControl_(self)` 这个方法会耗时多 1ms. 虽然你看来 1ms 不多，但是作为一个使用频率特别高的基础 UI，特别是在列表中使用的时候，会在一帧创建多几个文本，就会造成卡帧了。所谓细数惊长计，能省一点是一点。
 
 * 加密是否有用呢？
 
