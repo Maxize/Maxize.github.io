@@ -60,6 +60,12 @@ time_format: HH:mm:ss
 per_page: 10
 pagination_dir: page
 
+search:
+    path: search.xml
+    field: post
+    format: html
+    limit: 10000
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
@@ -98,7 +104,7 @@ amnon:
     left_col_width: 300
     toc_nowrap: false
     excerpt_link: more #修改more>>的文字
-    search_box: true
+    # search_box: true
     animate: true
     tagcloud: true
     friends:
@@ -130,6 +136,7 @@ amnon:
         exclude: # 例外的链接，可将友情链接放置此处
         - blog.codingnow.com
         - mindhacks.cn
+
 
 ## end amnon theme setting
 stylus:
