@@ -10,6 +10,11 @@ tags: [iOS, Guide]
 
 没有实际躺过坑，就无法知道深浅，过去一直以为就算其他什么也不懂，但只要查找一下资料，还是可以很快入门的，但实际操作起来，别人一两小时可以搞定的东西，你或许还是要花费 1-2 天才能正确实施，当然，我把这个划分到学习成本里面吧，慢慢积累和收录一些过程中的问题，我相信，以后也可以更快的开发。
 
+### 更新日志
+
+* 2017-11-23 init this news
+* 2017-12-20 新增 「关于 OpenUDID 的使用」
+
 ## 三两问题
 
 ### 如何入门 iOS
@@ -18,9 +23,9 @@ tags: [iOS, Guide]
 
 60 分钟就能入门，你信不信，反正我不信，那你看看怎么样？[iOS开发60分钟入门](https://github.com/qinjx/30min_guides/blob/master/ios.md)
 
-* 开发语言 [Objuct-C](https://zh.wikipedia.org/wiki/Objective-C)
+* 开发语言 [Objective-C](https://zh.wikipedia.org/wiki/Objective-C)
 
-工欲善必先利其器，连用什么开发语言都不懂的话，那不是很悲哀，正好之前浏览过一个网站，如何在 X minutes 下学习 Y，刚好拿来用用，也是英文不好，但也只能硬着头皮啃。这里传送： [Object-c](https://learnxinyminutes.com/docs/objective-c/)
+工欲善必先利其器，连用什么开发语言都不懂的话，那不是很悲哀，正好之前浏览过一个网站，如何在 X minutes 下学习 Y，刚好拿来用用，也是英文不好，但也只能硬着头皮啃。这里传送： [Objective-c](https://learnxinyminutes.com/docs/objective-c/)
 
 * 开发工具 [Xcode](https://zh.wikipedia.org/wiki/Xcode)
 
@@ -326,6 +331,23 @@ NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentImage.pn
 于是在这里也看到了关于不同平台的设计尺寸规范，感觉很有用，就收录了下来，以后可以经常去翻阅，回味一下。[iOS 设计尺寸规范](https://uiiiuiii.com/screen/ios.htm) 与 [Android 设计尺寸规范](https://uiiiuiii.com/screen/android.htm)。
 
 一次可以跟设计师有共同话题的机会，你抓住了么？
+
+### 关于 OpenUDID 的使用
+
+因为要发一个类似的游戏，申请了一个新的开发者账号，所以你懂的。
+
+然后问题来了，昨天要发包了，发现生成的游客变了，不再是几个游戏共用一个了。其实我一开始也不知道有这么一个梗在里面的。花了点时间把代码看了一遍大概整理了一下思路：
+
+1. 第一次安装应用会通过 [OpenUDID](https://github.com/ylechelle/OpenUDID) 生成对应的 UDID，然后保存在系统剪切板中并存在应用的本地存储中
+2. 下次启动的时候从本地存储中取
+3. 卸载游戏之后可通过剪切板获取
+
+限制：
+1. 理论上使用 UIPasteboard 可以达成删除应用和升级系统都能获取到，不保证重装或者硬盘满了之后被清除
+2. 不同应用不能共用，bundle ID: xxx.xx.* 可共用（未确认）
+3. OpenUDID 作者已经发布声明仓库已废弃
+
+所以这个解决方案，无法解决唯一标示问题，从官方开始禁止访问 UDID, Mac 地址后变得曲折起来，网上提供的比较靠谱的思路是采用 IDFA + KeyChain / UUID + KeyChain 来解决这个问题，我想问一下，这个不同的开发者的应用可以适用么？（待后续有时间研究确认一下）
 
 ## 总结
 

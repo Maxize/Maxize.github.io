@@ -1,7 +1,7 @@
 ---
 title: flash android CM13 for I9300（退役的三星 S3 复活了）
 date: 2016-09-29 22:56:14
-categories: phone
+categories: 杂
 description: 给退役的三星 S3 更新系统，还能再战五年。
 tags: android
 ---
