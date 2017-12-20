@@ -3,7 +3,7 @@ title: iOS 开发向导
 date: 2017-11-23 16:27:55
 categories: iOS
 description: 记录在使用 iOS 过程中遇到的问题以及一些常用的操作，比如如何读取沙盒图片，压缩图片等，为了后续可以拿来就用。
-tags: [iOS, Guide]
+tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes]
 ---
 
 ## 背景
@@ -14,6 +14,7 @@ tags: [iOS, Guide]
 
 * 2017-11-23 init this news
 * 2017-12-20 新增 「关于 OpenUDID 的使用」
+* 2017-12-21 新增 「DSYMs 的作用？」，「URL Schemes 使用详解」
 
 ## 三两问题
 
@@ -292,9 +293,11 @@ NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentImage.pn
 9. 在 `Build Settings` 修改 `entitlements` 的路径
 10. 在 `Build Phases` 下，修改 `Copy Bundle Resources` ，移除没用的资源，把当前版本需要的添加进来
 
-这样配置完，需要修改的东西集中了，运行的时候也很好操作，避免了没次频繁的打开项目。
+这样配置完，需要修改的东西集中了，运行的时候也很好操作，避免了每次频繁的打开项目。
 
 当然看完上面的之后，你肯定就会想如何更好的管理，最好是连配置和修改这个过程都省略了，自动化到一定程度之后，就会带来另外一个问题，你连操作都不用的话，需要改动到里面相关内容的时候，你还是需要把你欠下来的补回去的，出来混，迟早是要还的。
+
+**补充说明：** 实际使用过程中发现不同的 target 不能同时使用 Assets.xcassets ，只能使用完之后再单独添加，目前没有去深挖缘由，有时间再处理。（还是有点懒，还没到完全自动打包的地步）
 
 ### 脚本打包，你知道么？
 
@@ -343,14 +346,43 @@ NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentImage.pn
 3. 卸载游戏之后可通过剪切板获取
 
 限制：
+
 1. 理论上使用 UIPasteboard 可以达成删除应用和升级系统都能获取到，不保证重装或者硬盘满了之后被清除
 2. 不同应用不能共用，bundle ID: xxx.xx.* 可共用（未确认）
 3. OpenUDID 作者已经发布声明仓库已废弃
 
 所以这个解决方案，无法解决唯一标示问题，从官方开始禁止访问 UDID, Mac 地址后变得曲折起来，网上提供的比较靠谱的思路是采用 IDFA + KeyChain / UUID + KeyChain 来解决这个问题，我想问一下，这个不同的开发者的应用可以适用么？（待后续有时间研究确认一下）
 
+该模块接触到的一些陌生的知识点：
+
+1. [iOS 数据存储 NSUserDefaults的使用](http://www.jianshu.com/p/4b118ebb656f)
+2. [UIPasteboard 粘贴板（iOS） 看这篇就够了](http://www.jianshu.com/p/a6d2e46329f8)
+3. [数据存储之归档解档 NSKeyedArchiver NSKeyedUnarchiver](https://github.com/pro648/tips/wiki/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B9%8B%E5%BD%92%E6%A1%A3%E8%A7%A3%E6%A1%A3-NSKeyedArchiver-NSKeyedUnarchiver)
+4. [iOS-NSDictionary and NSMutableDictionary](http://www.jianshu.com/p/3c47cd564040)
+5. [iOS 获取设备唯一 ID](http://www.shangyan.site/2016/10/25/ios-device-id/)
+
+### DSYMs 的作用？
+
+最近在分析一些线上 Bug 的时候发现在 Archives 栏目有一个 Download DSYMs 的按钮，不过每次下载都会找不到，看了关于 Xcode 帮助文档中 [Symbolicate crashes](https://help.apple.com/xcode/mac/9.0/index.html?localePath=en.lproj#/devef5928039) 的介绍，提到他会存在于打好的包中，或者可以从 iTunes Connect 中下载，主要用于分析设备出现的 crash，看完还是有点一知半解，顺手 Google 之。
+
+参考：
+
+* [iOS开发符号表(dSYM)知识总结](https://juejin.im/entry/59dc90d16fb9a04508089cd6)
+* [dSYMTools](https://github.com/answer-huang/dSYMTools)
+
+于是后面每次发包就要顺路把打包好的 IPA 和 archive 留档下来，以便于更好的分析线上 bug。不过因为项目中涉及的大多是 C++ 的 Crash ，也未能得到更多的信息。
+
+考虑要接入 Fabric 的 [Crashlytics](https://try.crashlytics.com) 辅助查看。接入过程很简单，可参考官方文档自行接入。
+
+### URL Schemes 使用详解
+
+最近在使用 FB 分享跳转到应用遇到一个问题，因为我手机里面安装了两个使用同样 FB ID 的 App，然后每次点击跳转的时候都是跳到另外一个 App 就感觉有个 Bug 在向我逼近。
+
+分析了一下，发现这个问题跟 App 安装的顺序有关，同个 FB ID，早安装的会被唤起，后安装的不会，之前在做国内版本的时候也发现了这种现象，当时是在「正式包」登录结果跳转到了「企业包」，今天就试图揭秘一下，从其他 App 跳转到当前 App 的机制，而其中涉及到关键字是 [URL Scheme](https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html)，Google 之，[URL Schemes 使用详解](https://sspai.com/post/31500) 发现这个东西用的好还是大有可为呀，也明白之前微信打开手机内 App 的姿势原来是这回事，知识匮乏限制了我的想象力呀。
+
+之前在 App Review 的时候，网友也有提过关于检索项目中使用的 URL Schemes 有没有包含 Apple 禁止的关键字，现在看来更加明了了。
+
 ## 总结
 
-小白遇到的问题肯定都是很低级的，所以高手就绕过吧。
+最近接触的 iOS 多了，有感于在 Android 方面有一定的认识，接触起来也不会一头雾水，而且已有众多前人趟过，随手搜索都能找到解决方案，更坚信自己要把问题好好记录下来，方便自己也方便他人。
 
-哪一天再回来看的时候，我也可以骄傲的说，咱也是从菜鸟慢慢变成老鸟的，不信你看，这都是经验。
