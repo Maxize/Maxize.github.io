@@ -71,18 +71,18 @@ tags: [Facebook, Share, Games]
 
 ---
 
+### Facebook 分享的坑
+
 楼主最近在处理 FB 分享的时候遇到的问题以及接入 FB 可以使用的工具
 
-* Facebook SDK
-
-1. 官方提供的工具
+#### 官方提供的工具
 
 官方有一个网址，提供了我们在接入 SDK 可以使用的工具，看这里[工具和支持](https://developers.facebook.com/tools-and-support/)
 
 主要的工具有：
 
-* [图谱 API 探索工具](https://developers.facebook.com/tools/explorer/) 
-* [分享调试器](https://developers.facebook.com/tools/debug/sharing)
+1. [图谱 API 探索工具](https://developers.facebook.com/tools/explorer/) 
+2. [分享调试器](https://developers.facebook.com/tools/debug/sharing)
 
 「图谱 API 探索工具」是我之前在客户端使用他来发送分享功能的，因为可以自定义内容，而且也可以方便测试，但他是需要获取玩家的 `publish_actions` 权限的，而且在调用的时候就要提前获取。
 
@@ -109,7 +109,7 @@ xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 
 大家可以优先看一下这个指导。
 
-2. 分享有哪些方式
+#### 分享有哪些方式
 
 从[最佳实践](https://developers.facebook.com/docs/sharing/best-practices)那里我们可以看到，目前支持的方式有：
 
@@ -125,7 +125,7 @@ xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 
 说到这里，其实就是可以通过 FB 接口获取好友的信息，然后邀请好友玩游戏，如果有 Web 版本的游戏体验会更好，不然就是跳转到应用商店或者启动应用。
 
-3. 有一些官方隐藏的坑
+#### 有一些官方隐藏的坑
 
 FB 比较坑爹的地方是 API 会随着版本发布经常变动，而且时不时还会抽风。
 
@@ -133,7 +133,7 @@ FB 比较坑爹的地方是 API 会随着版本发布经常变动，而且时不
 
 后面没有改动，分享出去的时候能看到图片了，但是分享时还是看不到图片。
 
-相关的要求可以参考这个（抓取不到图片）：
+**相关的要求可以参考这个（抓取不到图片）：**
 
 * 图片尺寸
     - 0 x 0  ~ 199 x 199 =  会抓不到图
@@ -145,7 +145,7 @@ FB 比较坑爹的地方是 API 会随着版本发布经常变动，而且时不
 
 参考：[Facebook 文章分享的預覽圖片，顯示為寬版大圖的設定方式 - og:image 的 image size 條件](http://sweeteason.pixnet.net/blog/post/42228946-facebook-文章分享的預覽圖片，顯示為寬版大圖) 查看更多
 
-当然还有两个点是血的教训，也要提一下。
+**当然还有三个点是血的教训，也要提一下。**
 
 1. 对同个好友不要邀请过多次
 2. 一天不要发送太多的帖子
