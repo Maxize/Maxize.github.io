@@ -14,7 +14,8 @@ tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes]
 
 * 2017-11-23 init this news
 * 2017-12-20 新增 「关于 OpenUDID 的使用」
-* 2017-12-21 新增 「DSYMs 的作用？」，「URL Schemes 使用详解」
+* 2017-12-21 新增 「DSYMs 的作用？」、「URL Schemes 使用详解」
+* 2017-12-25 新增 「证书相关」、「URL Schemes 使用问题」和「-[__NSCFString stringValue]: unrecognized selector sent to instance 0x174429f40」
 
 ## 三两问题
 
@@ -29,6 +30,12 @@ tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes]
 工欲善必先利其器，连用什么开发语言都不懂的话，那不是很悲哀，正好之前浏览过一个网站，如何在 X minutes 下学习 Y，刚好拿来用用，也是英文不好，但也只能硬着头皮啃。这里传送： [Objective-c](https://learnxinyminutes.com/docs/objective-c/)
 
 * 开发工具 [Xcode](https://zh.wikipedia.org/wiki/Xcode)
+
+### 证书相关
+
+关于证书的相关问题可以查看博客下的单独文章：
+
+[iOS 开发者证书总结 in-house](http://amnon.win/2017/05/27/ios-developer-certificate/)
 
 ### iOS icon 尺寸要求
 
@@ -381,6 +388,87 @@ NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentImage.pn
 分析了一下，发现这个问题跟 App 安装的顺序有关，同个 FB ID，早安装的会被唤起，后安装的不会，之前在做国内版本的时候也发现了这种现象，当时是在「正式包」登录结果跳转到了「企业包」，今天就试图揭秘一下，从其他 App 跳转到当前 App 的机制，而其中涉及到关键字是 [URL Scheme](https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html)，Google 之，[URL Schemes 使用详解](https://sspai.com/post/31500) 发现这个东西用的好还是大有可为呀，也明白之前微信打开手机内 App 的姿势原来是这回事，知识匮乏限制了我的想象力呀。
 
 之前在 App Review 的时候，网友也有提过关于检索项目中使用的 URL Schemes 有没有包含 Apple 禁止的关键字，现在看来更加明了了。
+
+### URL Schemes 使用问题
+
+#### failed for URL: "line://" - error: "This app is not allowed to query for scheme line"
+
+原因: IOS9 中限制了 URL Schemes 白名单以外的 scheme 访问，
+解决办法: 在项目的 Info.plist 中增加 LSApplicationQueriesSchemes 配置，属性是 array 。
+把你需要用的 scheme 加进去就好了。
+
+我这里加的是 line ，其它的第三方应用类似。
+
+更多 [你所知道好玩有趣的 iOS URL Scheme 有哪些？](https://www.zhihu.com/question/19907735) 看这里。
+
+下面是 xml 内容，可以直接拷贝。
+
+``` xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+<string>line</string>
+</array>
+```
+
+#### 打不开对应的 URL Schemes
+
+因为 URL Schemes 类似于使用 URL 访问，所以需要对你请求的内容进行 URLEncode ， Lua 版本的 encode 代码可以参考这里：
+
+``` lua
+-- 加密 URL
+function encodeURI(str)
+    if (str) then
+        str = string.gsub (str, "\n", "\r\n")
+        str = string.gsub (str, "([^%w ])",
+            function (c) return string.format ("%%%02X", string.byte(c)) end)
+        str = string.gsub (str, " ", "+")
+   end
+   return str
+end
+```
+
+### -[__NSCFString stringValue]: unrecognized selector sent to instance 0x174429f40
+
+在使用 NSString 的时候，犯了一个很二逼的错误，特此纪念一下。
+
+目标代码：
+
+``` objective-c
+NSString* shareMsg = shareMsg = [[dict objectForKey:@"msg"] stringValue];
+```
+
+原因是：如果已经是 stringValue 就不需要使用 stringValue 去处理转化了。
+
+可以使用以下代码解决：
+
+``` objective-c
+// 方案一：比较稳妥的解决方案
+NSString* shareMsg = NULL;
+if ([[dict objectForKey:@"msg"] isKindOfClass:[NSString class]] ) {
+    shareMsg = [dict objectForKey:@"msg"];
+} else {
+    shareMsg = [[dict objectForKey:@"msg"] stringValue];
+}
+
+// 方案二：扩展 NSStrinng 方法
+@interface NSString(JB)
+-(NSString *) stringValue;
+@end
+
+@implementation NSString(JB)
+  -(NSString *) stringValue {
+  return self;
+}
+@end
+
+// 方案三： 简单粗暴
+NSString* shareMsg = shareMsg = [dict objectForKey:@"msg"];
+```
+
+我就是直接用方案三解决的，简单粗暴，都知道是 stringValue 还脱裤子放屁，简直多此一举，「防御式编程」也不是这么用的！
+
+参考看这里： [[NSCFString stringValue]: unrecognized selector sent to instance
+](https://stackoverflow.com/questions/3823161/nscfstring-stringvalue-unrecognized-selector-sent-to-instance)
 
 ## 总结
 
