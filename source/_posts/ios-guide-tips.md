@@ -3,7 +3,7 @@ title: iOS 开发向导
 date: 2017-11-23 16:27:55
 categories: iOS
 description: 记录在使用 iOS 过程中遇到的问题以及一些常用的操作，比如如何读取沙盒图片，压缩图片等，为了后续可以拿来就用。
-tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes]
+tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes, 反射]
 ---
 
 ## 背景
@@ -16,6 +16,7 @@ tags: [iOS, Guide, OpenUDID, 60分钟入门, icon, target, URL Schemes]
 * 2017-12-20 新增 「关于 OpenUDID 的使用」
 * 2017-12-21 新增 「DSYMs 的作用？」、「URL Schemes 使用详解」
 * 2017-12-25 新增 「证书相关」、「URL Schemes 使用问题」和「-[__NSCFString stringValue]: unrecognized selector sent to instance 0x174429f40」
+* 2017-12-26 新增 「iOS 下实现类似 Java 反射的实现」和 「iOS 下支持的布尔类型」
 
 ## 三两问题
 
@@ -469,6 +470,115 @@ NSString* shareMsg = shareMsg = [dict objectForKey:@"msg"];
 
 参考看这里： [[NSCFString stringValue]: unrecognized selector sent to instance
 ](https://stackoverflow.com/questions/3823161/nscfstring-stringvalue-unrecognized-selector-sent-to-instance)
+
+### iOS 下实现类似 Java 反射的实现
+
+把这一点拿出来说，主要是前段时间公司刚把 `performSelector:withObject:` 改成使用 `switch`，瞬间觉得淡淡的忧伤。当时主要不是我负责，所以我也就没有说什么了，但是做过项目你就知道的，当你写了很多需要跨平台回调的方法之后，你还要跑到一个类似「网关类」那里通过各种 case 然后去找到对应的方法实现的时候，你就明白使用「反射」来动态获取并调用的方案是多么的愉悦了。
+
+目前 iOS 支持的实现类似反射的方法有两种：
+
+1. performSelector:withObject:（已不能使用，iOS 明令禁止，参见最新的 app review 审核指南）
+2. NSInvocation
+
+发现第二种是刚好在跟这一个问题的时候： [luaoc static function return type BOOL](https://github.com/u0u0/Quick-Cocos2dx-Community/issues/99) ，就顺便看了一下关于这一块的实现，发现了这么一个东西，记下来，好好学习一下。
+
+#### NSInvocation 支持的使用方式
+
+* 无参数无返回值
+* 有参数无返回值
+* 有参数有返回值
+
+讲一下第三种其他两个就很容易理解了，代码节选自 `LuaObjcBridge.mm`，完整代码请到对应的方法下查看。
+
+``` objective-c
+    ......
+    // 通过方法名新建 Class
+    Class targetClass = NSClassFromString([NSString stringWithCString:className encoding:NSUTF8StringEncoding]);
+    SEL methodSel;
+    bool hasArguments = true;
+    // 有参数
+    if (hasArguments)
+    {
+        NSString *methodName_ = [NSString stringWithCString:methodName encoding:NSUTF8StringEncoding];
+        methodName_ = [NSString stringWithFormat:@"%@:", methodName_];
+        methodSel = NSSelectorFromString(methodName_);
+    }
+    else
+    {
+        // 无参数
+        methodSel = NSSelectorFromString([NSString stringWithCString:methodName encoding:NSUTF8StringEncoding]);
+    }
+    NSMethodSignature *methodSig = [targetClass methodSignatureForSelector:(SEL)methodSel];
+    if (methodSig == nil)
+    {
+        // do something
+    }
+    @try {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setTarget:targetClass];
+        [invocation setSelector:methodSel];
+        NSUInteger returnLength = [methodSig methodReturnLength];
+        const char *returnType = [methodSig methodReturnType];
+        if (hasArguments)
+        {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            // 通过 dict 把数据传过去，多个参数使用 setArgument 和 index 分别设置，使用 dict 可以设置任何想要的数据而无需扩展方法
+            [invocation setArgument:&dict atIndex:2];
+            [invocation invoke];
+        }
+        else
+        {
+            [invocation invoke];
+        }
+        if (returnLength > 0)
+        {
+            if (strcmp(returnType, @encode(id)) == 0)
+            {
+                id ret;
+                [invocation getReturnValue:&ret];
+            }
+            else if (strcmp(returnType, @encode(BOOL)) == 0) // BOOL
+            {
+                char ret;
+                [invocation getReturnValue:&ret];
+            }
+            else if (strcmp(returnType, @encode(int)) == 0) // int
+            {
+                int ret;
+                [invocation getReturnValue:&ret];
+            }
+            else if (strcmp(returnType, @encode(float)) == 0) // float
+            {
+                float ret;
+                [invocation getReturnValue:&ret];
+            }
+            else
+            {
+                NSLog(@"not support return type = %s", returnType);
+            }
+        }
+    }
+    @catch (NSException *exception)
+    {
+        NSLog(@"EXCEPTION THROW: %@", exception);
+    }
+```
+
+以上代码就包含了上面的几种情况，这样你就可以愉快的通过 NSInvocation 动态访问到任何 class 下的 method 了，还支持把数据传过去。
+
+### iOS 下支持的布尔类型
+
+用 objective-c 我才知道我对「布尔类型」的认识还太少，跟布尔类型有关的有如下几个。
+
+看此表格，以后别用错了哦。
+
+|     name     |    typedef    |      header      |   true value   |   false value   |
+|:------------:|:-------------:|:----------------:|:--------------:|:---------------:|
+|     BOOL     |  signed char  |      objc.h      |       YES      |        NO       |
+|     bool     |   _Bool(int)  |     stdbool.h    |      true      |      false      |
+|    Boolean   | unsigned char |     MacType.h    |      TRUE      |      FALSE      |
+|   NSNumber   | __NSCFBoolean |   Foundation.h   |     @(YES)     |      @(NO)      |
+| CFBooleanRef |     struct    | CoreFoundation.h | kCFBooleanTrue | kCFBooleanFalse |
 
 ## 总结
 
