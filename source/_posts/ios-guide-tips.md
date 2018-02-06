@@ -392,6 +392,19 @@ NSString *imageFilePath = [path stringByAppendingPathComponent:@"currentImage.pn
 
 ### URL Schemes 使用问题
 
+#### 如何判断是否安装某个 App 以及跳转到对应 App
+
+``` objective-c
+// 判断是否安装 App
+if ([[UIApplication sharedApplication] canOpenURL:[NSURL  URLWithString:@"line://"]]){
+    NSLog(@"Installed");
+}else{ 
+    NSLog(@"No");
+}
+// 跳转到对应 App
+[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"line://"]];
+```
+
 #### failed for URL: "line://" - error: "This app is not allowed to query for scheme line"
 
 原因: IOS9 中限制了 URL Schemes 白名单以外的 scheme 访问，

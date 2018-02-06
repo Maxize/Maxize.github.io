@@ -264,9 +264,8 @@ tags: [lua, code style]
 - 对于多级和超长逻辑判断，用括号与缩进标明层级，逻辑运算符放 **行首**。（当然，能简化逻辑判断最好）
     ```lua
     -- good
-    if ((xxx and yyy) or (xxx and zzz)) and 
-        xxx or 
-        (yyy and zzz) then
+    if ((xxx and yyy) or (xxx and zzz)) and xxx 
+        or (yyy and zzz) then
         ...
     end
 
@@ -321,7 +320,9 @@ tags: [lua, code style]
 ## 项目规范
 
 - UI编辑器设置生成 lua 文件路径为 `Resource/scripts/app/layout`
+
 - 项目内方法 **分类命名**
+
     ```lua
     点击事件：onXXXClick();
     网络请求：requestXXX();
@@ -330,6 +331,7 @@ tags: [lua, code style]
     消息回调：onEventXXX();
     ```
 - 文件 require 其他模块顺序是 **engine->framework->app**，最后引用同目录模块
+
     ```lua
     require("engine/xxx/xxx")
     require("framework/xxx/xxx/xxx")
@@ -344,6 +346,7 @@ tags: [lua, code style]
 - 针对网络回调中过多的数据传递，可使用 **table** 包裹参数，避免方法定义过长，控制参数的数量
 - 函数内使用的数据尽可能通过参数传递进来，而不是直接访问成员变量/全局变量；提高函数本身的模块性
 - 项目内存在多个数据类用于模块间共享数据，新增数据需要分清属性放于正确文件中
+    
     ```lua
     globalInfo.lua     -- 整个游戏共享
     accountInfo.lua    -- 账号相关数据，切换账号，数据失效

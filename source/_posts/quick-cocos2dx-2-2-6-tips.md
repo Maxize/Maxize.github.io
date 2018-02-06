@@ -1,7 +1,7 @@
 ---
 title: quick-cocos2dx-2.2.6-tips
 date: 2017-06-13 11:23:59
-categories: quick-cocos2dx
+categories: cocos2dx
 description: 使用 quick-coco2dx 问题记录
 tags:  quick2.2.6
 ---
