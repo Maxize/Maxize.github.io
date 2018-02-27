@@ -10,6 +10,7 @@ tags: [iOS, 开发者证书, in-hourse]
 
 * 2017-07-04: 新增获取证书的教程
 * 2017-12-20: 新增 pem 证书说明
+* 2018-02-27: 证书过期怎么办，代码签名探析
 
 ## 证书类型
 
@@ -49,4 +50,25 @@ tags: [iOS, 开发者证书, in-hourse]
 关于不同证书的申请途径，参考： 
 1. [iOS证书及描述文件制作流程](http://docs.apicloud.com/Dev-Guide/iOS-License-Application-Guidance#0)
 2. [iOS开发证书与配置文件的使用](http://www.jianshu.com/p/9d9e3699515e)
+
+## 证书过期了怎么办？
+
+一年一度的交公粮，之后有一些证书可能就差不多到期了，这个时候如何妥善处理证书呢？
+
+把之前都申请的证书重新申请一遍就好了。至于有哪些证书，可以看上面的操作流程。**在后台把证书都 revoke 掉**，包括开发者证书，发布证书，PP 文件，推送证书。本地「钥匙串访问」中也要删除掉「已过期的证书」。
+如果 CSR 过期了需要重新申请一个，不然就沿用旧的。
+
+这里截图给大家看一下，发布一个 iOS 项目涉及到的证书有哪一些。
+
+![certificates_ios.jpg](ios-developer-certificate/certificates_ios.jpg)
+
+当中，含有 aps 的都是跟推送相关的。
+
+## 代码签名探析
+
+跟证书打交道的话，难免要知道一下关于证书和签名等的来由，刚好看到这篇文章就引用过来看看，[代码签名探析](https://objccn.io/issue-17-2/)，原文「[Inside Code Signing](https://www.objc.io/issues/17-security/inside-code-signing/)」，加深对 iOS 证书的理解。
+文章主要涉及这几个点：
+1. 证书和密匙
+2. 一个已签名应用的组成
+3. 授权机制 (Entitlements) 和配置文件 (Provisioning)
 
