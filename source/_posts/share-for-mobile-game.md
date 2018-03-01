@@ -26,7 +26,7 @@ tags: [Facebook, Share, Games]
 
 之前浏览网页的时候发现了这么一个网页，后面也没有记录下来，然后花了点时间把他找回来，特此奉献一下。
 
-[iOS不同平台分享内容的详细说明](http://wiki.mob.com/ios%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E5%88%86%E4%BA%AB%E5%86%85%E5%AE%B9%E7%9A%84%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/)
+[不同平台分享内容的详细说明](http://wiki.mob.com/%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E5%88%86%E4%BA%AB%E5%86%85%E5%AE%B9%E7%9A%84%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/)
 
 其实我害怕哪一天这个网址会失效，有想法想把这篇自己再重新用 markdown 写一下，留下来备份。
 
