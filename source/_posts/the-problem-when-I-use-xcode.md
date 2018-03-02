@@ -114,6 +114,14 @@ lipo -create 第一个.a文件的绝对路径 第二个.a文件的绝对路径 -
 
 如何使用 Xcode 编译静态库，可以参考这个：[Xcode 创建.a和framework静态库](http://www.jianshu.com/p/43d55ae49f59)
 
+### 新版本 Xcode 下在旧系统下运行报 Framework 异常解决
+
+``` bash
+dyld: Library not loaded: /System/Library/Frameworks/UserNotifications.framework/UserNotifications Referenced from: /var/containers/Bundle/Application/245FDD8F-8BA5-46DF-96A4-EF6C84BA3361/dummy.app/dummy Reason: image not found
+```
+
+哪个 Framework 有问题，在 Link Binary With Libraries 中从 Require 改为 Optional 。
+
 ## 总结
 
 有些问题一定要自己经历过才知道，而庆幸自己遇到的问题都有前人踩过坑，以后遇上了未被开发的 Bug 再来总结吧，站在巨人的肩膀上就是舒服点。
