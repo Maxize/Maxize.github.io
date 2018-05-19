@@ -8,6 +8,7 @@ cache:
     directories:
         - node_modules
 before_install:
+    - apt-get update
     - npm install -g hexo-cli
     - npm install hexo --save
 install:
