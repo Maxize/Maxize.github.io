@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>游戏分享的问题 | Day Day Go</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开发游戏，分享功能是一个不得不面对的功能，而且不同的平台的要求和机制也不一样，这里开一篇来记录一下自己遇到的一些问题，方便自己查阅。">
+<meta name="keywords" content="Facebook,Share,Games">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游戏分享的问题">
+<meta property="og:url" content="http://amnon.win/2017/12/01/share-for-mobile-game/index.html">
+<meta property="og:site_name" content="Day Day Go">
+<meta property="og:description" content="开发游戏，分享功能是一个不得不面对的功能，而且不同的平台的要求和机制也不一样，这里开一篇来记录一下自己遇到的一些问题，方便自己查阅。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-17T08:50:41.241Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="游戏分享的问题">
+<meta name="twitter:description" content="开发游戏，分享功能是一个不得不面对的功能，而且不同的平台的要求和机制也不一样，这里开一篇来记录一下自己遇到的一些问题，方便自己查阅。">
+  
+    <link rel="alternative" href="/atom.xml" title="Day Day Go" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false,
+          search: true
+      }
+  </script>
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Amnon">Amnon</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+        
+        
+        <form id="search-form"> <!-- 搜索框相关 -->
+            <input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+        </form>
+        <div id="local-search-result"></div> <!-- 搜索结果区 -->
+        <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页 | Home</a></li>
+                        
+                            <li><a href="/archives">归档 | Archives</a></li>
+                        
+                            <li><a href="/about">关于 | About</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/60分钟入门/" style="font-size: 10px;">60分钟入门</a> <a href="/tags/APK/" style="font-size: 10px;">APK</a> <a href="/tags/Android/" style="font-size: 12.5px;">Android</a> <a href="/tags/BTSync/" style="font-size: 10px;">BTSync</a> <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Chinese/" style="font-size: 10px;">Chinese</a> <a href="/tags/Cocos2dx/" style="font-size: 10px;">Cocos2dx</a> <a href="/tags/Decompile/" style="font-size: 10px;">Decompile</a> <a href="/tags/Facebook/" style="font-size: 10px;">Facebook</a> <a href="/tags/Fork/" style="font-size: 10px;">Fork</a> <a href="/tags/Game-Programmer/" style="font-size: 10px;">Game Programmer</a> <a href="/tags/Games/" style="font-size: 10px;">Games</a> <a href="/tags/Git/" style="font-size: 20px;">Git</a> <a href="/tags/Guide/" style="font-size: 10px;">Guide</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Image/" style="font-size: 10px;">Image</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Lua-CJSON/" style="font-size: 10px;">Lua CJSON</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/OpenUDID/" style="font-size: 10px;">OpenUDID</a> <a href="/tags/Pilliow/" style="font-size: 10px;">Pilliow</a> <a href="/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Quick-Cocos2dx-Community/" style="font-size: 12.5px;">Quick-Cocos2dx-Community</a> <a href="/tags/Read/" style="font-size: 10px;">Read</a> <a href="/tags/Resilio/" style="font-size: 10px;">Resilio</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/Sublime-Text/" style="font-size: 10px;">Sublime Text</a> <a href="/tags/Sync/" style="font-size: 10px;">Sync</a> <a href="/tags/Tools/" style="font-size: 10px;">Tools</a> <a href="/tags/URL-Schemes/" style="font-size: 10px;">URL Schemes</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/checkout/" style="font-size: 10px;">checkout</a> <a href="/tags/code-review/" style="font-size: 10px;">code review</a> <a href="/tags/code-style/" style="font-size: 10px;">code style</a> <a href="/tags/copywriting/" style="font-size: 10px;">copywriting</a> <a href="/tags/git-flow/" style="font-size: 10px;">git-flow</a> <a href="/tags/google-play/" style="font-size: 10px;">google play</a> <a href="/tags/habit/" style="font-size: 10px;">habit</a> <a href="/tags/iOS/" style="font-size: 17.5px;">iOS</a> <a href="/tags/icon/" style="font-size: 10px;">icon</a> <a href="/tags/in-hourse/" style="font-size: 10px;">in-hourse</a> <a href="/tags/include/" style="font-size: 10px;">include</a> <a href="/tags/learn/" style="font-size: 10px;">learn</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/optimization/" style="font-size: 10px;">optimization</a> <a href="/tags/packet-capture/" style="font-size: 10px;">packet capture</a> <a href="/tags/pay/" style="font-size: 10px;">pay</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/quick2-2-6/" style="font-size: 10px;">quick2.2.6</a> <a href="/tags/resign/" style="font-size: 10px;">resign</a> <a href="/tags/sips/" style="font-size: 10px;">sips</a> <a href="/tags/skill/" style="font-size: 15px;">skill</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/study/" style="font-size: 10px;">study</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/sublime-text3/" style="font-size: 10px;">sublime text3</a> <a href="/tags/tag/" style="font-size: 10px;">tag</a> <a href="/tags/target/" style="font-size: 10px;">target</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/website/" style="font-size: 12.5px;">website</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/workflow/" style="font-size: 10px;">workflow</a> <a href="/tags/中文/" style="font-size: 10px;">中文</a> <a href="/tags/使用过程/" style="font-size: 10px;">使用过程</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/命令行/" style="font-size: 10px;">命令行</a> <a href="/tags/开发者证书/" style="font-size: 10px;">开发者证书</a> <a href="/tags/思考/" style="font-size: 10px;">思考</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+                    </div>
+                </section>
+                
+
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://maxize.github.io/">我的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.codingnow.com/">云风的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏 | Mind Hacks</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">移动前端开发攻城狮，这个人有严重的拖延症，记性差，脾气暴躁，晚睡癌，暂获好人卡无数，你该忽略他。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Amnon</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Amnon</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页 | Home</a></li>
+                
+                    <li><a href="/archives">归档 | Archives</a></li>
+                
+                    <li><a href="/about">关于 | About</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-share-for-mobile-game" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/01/share-for-mobile-game/" class="article-date">
+      <time datetime="2017-12-01T18:36:24.000Z" itemprop="datePublished">2017-12-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      游戏分享的问题
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/业务功能/">业务功能</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Facebook/">Facebook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Games/">Games</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Share/">Share</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本来不想记录的，让自己想铁下心来写这篇 Blog 的原因是前阵子在接入 FB 分享的时候，明明已经处理好了，可是出了问题，想去找一下 FB 的分享调试器的时候，居然绕了一大圈才找到，这样才萌生了念头。</p>
+<p>废话不多说，本 Blog 我想分为以下几方面去介绍。</p>
+<ol>
+<li>一些常见平台分享功能的限制和要求</li>
+<li>我接入 SDK 的惯用伎俩</li>
+<li>我接入过的一些平台踩过的坑</li>
+</ol>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="常见平台分享的要求"><a href="#常见平台分享的要求" class="headerlink" title="常见平台分享的要求"></a>常见平台分享的要求</h3><p>我们都知道不同平台，分享功能的要求是不一样的，每个平台都会有一些限制，个中要求只有接过了才能明白，所以如果有人列一个大纲，帮你介绍一下这个东西的话，那是不是就会很爽很开心。</p>
+<p>目前已经有不少提供第三方 SDK 帮我们聚合分享功能了，但有时候我们还是需要自己操刀接入一些，有这么一个东西还是好处大大的。</p>
+<p>之前浏览网页的时候发现了这么一个网页，后面也没有记录下来，然后花了点时间把他找回来，特此奉献一下。</p>
+<p><a href="http://wiki.mob.com/%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E5%88%86%E4%BA%AB%E5%86%85%E5%AE%B9%E7%9A%84%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">不同平台分享内容的详细说明</a></p>
+<p>其实我害怕哪一天这个网址会失效，有想法想把这篇自己再重新用 markdown 写一下，留下来备份。</p>
+<p>由于内容过多，有兴趣的可以自己翻阅这个地址查看，我就不在这里展示了。</p>
+<h3 id="SDK-你是怎么接的"><a href="#SDK-你是怎么接的" class="headerlink" title="SDK 你是怎么接的"></a>SDK 你是怎么接的</h3><ol>
+<li>查看官方文档和官方 Demo(最喜欢有 GitHub 的 SDK)</li>
+<li>遇到问题了，确认文档已经都看好了</li>
+<li>有技术支持，可以直接咨询，不然只能搜索引擎走起</li>
+<li>项目中接入的形式<ul>
+<li>使用 AnySDK or 其他聚合 SDK</li>
+<li>如果有 C++ 版可以优先考虑接</li>
+<li>直接原生接入（推荐，省心，跟原生一样处理就好了）</li>
+</ul>
+</li>
+</ol>
+<h3 id="我踩的坑"><a href="#我踩的坑" class="headerlink" title="我踩的坑"></a>我踩的坑</h3><p>楼主已经接过的 SDK 有：</p>
+<ul>
+<li>国内的 SDK：</li>
+</ul>
+<ol>
+<li>新浪微博</li>
+<li>微信（登录与支付）</li>
+<li>短代</li>
+<li>银联支付</li>
+<li>友盟</li>
+<li>……</li>
+</ol>
+<ul>
+<li>国外的 SDK：</li>
+</ul>
+<ol>
+<li>Facebook</li>
+<li>BluePay</li>
+<li>Mol 支付</li>
+<li>E2Pay</li>
+<li>TalkingData</li>
+<li>fortumo 支付</li>
+<li>……</li>
+</ol>
+<p>其他想不起来了，哈哈。</p>
+<p>貌似扯的有点远了，要回到分享功能上了。</p>
+<hr>
+<h3 id="Facebook-分享的坑"><a href="#Facebook-分享的坑" class="headerlink" title="Facebook 分享的坑"></a>Facebook 分享的坑</h3><p>楼主最近在处理 FB 分享的时候遇到的问题以及接入 FB 可以使用的工具</p>
+<h4 id="官方提供的工具"><a href="#官方提供的工具" class="headerlink" title="官方提供的工具"></a>官方提供的工具</h4><p>官方有一个网址，提供了我们在接入 SDK 可以使用的工具，看这里<a href="https://developers.facebook.com/tools-and-support/" target="_blank" rel="noopener">工具和支持</a></p>
+<p>主要的工具有：</p>
+<ol>
+<li><a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">图谱 API 探索工具</a> </li>
+<li><a href="https://developers.facebook.com/tools/debug/sharing" target="_blank" rel="noopener">分享调试器</a></li>
+</ol>
+<p>「图谱 API 探索工具」是我之前在客户端使用他来发送分享功能的，因为可以自定义内容，而且也可以方便测试，但他是需要获取玩家的 <code>publish_actions</code> 权限的，而且在调用的时候就要提前获取。</p>
+<p>「分享调试器」是 Facebook 通过爬虫抓取你的分享地址来展示，可以图文，也可以是视频，但是对应的地址需要提供类似以下标签。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:og</span>=<span class="string">"http://ogp.me/ns#"</span> <span class="attr">xmlns:fb</span>=<span class="string">"http://www.facebook.com/2008/fbml"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>The Rock (1996)<span class="tag">&lt;/<span class="name">title</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:title"</span> <span class="attr">content</span>=<span class="string">"The Rock"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:type"</span> <span class="attr">content</span>=<span class="string">"movie"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:url"</span> <span class="attr">content</span>=<span class="string">"http://www.imdb.com/title/tt0117500/"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:image"</span> <span class="attr">content</span>=<span class="string">"http://ia.media-imdb.com/rock.jpg"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:site_name"</span> <span class="attr">content</span>=<span class="string">"IMDb"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"fb:admins"</span> <span class="attr">content</span>=<span class="string">"USER_ID"</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:description"</span> <span class="attr">content</span>=<span class="string">"A group of U.S. Marines, under command of a renegade general, take over Alcatraz and threaten San Francisco Bay with biological weapons."</span>/&gt;</span></span><br><span class="line"> ... <span class="tag">&lt;/<span class="name">head</span>&gt;</span> ... </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>官方给的一个指导建议：</p>
+<p><a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank" rel="noopener">最佳实践</a></p>
+<p>大家可以优先看一下这个指导。</p>
+<h4 id="分享有哪些方式"><a href="#分享有哪些方式" class="headerlink" title="分享有哪些方式"></a>分享有哪些方式</h4><p>从<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank" rel="noopener">最佳实践</a>那里我们可以看到，目前支持的方式有：</p>
+<ul>
+<li>分享对话框 （类似微信分享到朋友圈）</li>
+<li>分享到 Message （类似微信分享给好友）</li>
+<li>分享 “关注” 按钮 （跳转到粉丝页）</li>
+<li>分享 “like” 按钮</li>
+<li>通过分享 API 分享</li>
+</ul>
+<p>因为 Facebook 有爬虫可以帮你抓取页面，所以你可以自定义你的分享链接地址，而分享的链接可以指定跳转到对应的游戏，这一点可以更容易的导量到你的应用，让分享的意义放大化。</p>
+<p>总结就是，使用前三种分享，是一个免费的带量行为，值得我们花时间去完善它。</p>
+<p>说到这里，其实就是可以通过 FB 接口获取好友的信息，然后邀请好友玩游戏，如果有 Web 版本的游戏体验会更好，不然就是跳转到应用商店或者启动应用。</p>
+<h4 id="有一些官方隐藏的坑"><a href="#有一些官方隐藏的坑" class="headerlink" title="有一些官方隐藏的坑"></a>有一些官方隐藏的坑</h4><p>FB 比较坑爹的地方是 API 会随着版本发布经常变动，而且时不时还会抽风。</p>
+<p>笔者遇到的一个情况就是，之前明明分享出去的地址是可以抓取到图片的，然后突然之间就不可以了，表现就是分享时设备也不显示了，分享出去之后也没有。当然这个是有一定要求的，比如说图片的尺寸要求（1200 * 640 以上），分享的链接需要指定参数。</p>
+<p>后面没有改动，分享出去的时候能看到图片了，但是分享时还是看不到图片。</p>
+<p><strong>相关的要求可以参考这个（抓取不到图片）：</strong></p>
+<ul>
+<li>图片尺寸<ul>
+<li>0 x 0  ~ 199 x 199 =  会抓不到图</li>
+<li>200 x 200 ~ 599 x 314 = 会抓到小图</li>
+<li>600 x 315 ~ 1500 x 1500 = 会抓到大图</li>
+<li>1501 x 1501 ~  以上 = 会抓到小图</li>
+</ul>
+</li>
+<li>图片大小不可超过 5MB</li>
+<li>使用 og:image:width 跟 og:image:height  来直接指定图片宽高</li>
+</ul>
+<p>参考：<a href="http://sweeteason.pixnet.net/blog/post/42228946-facebook-文章分享的預覽圖片，顯示為寬版大圖" target="_blank" rel="noopener">Facebook 文章分享的預覽圖片，顯示為寬版大圖的設定方式 - og:image 的 image size 條件</a> 查看更多</p>
+<p><strong>当然还有三个点是血的教训，也要提一下。</strong></p>
+<ol>
+<li>对同个好友不要邀请过多次</li>
+<li>一天不要发送太多的帖子</li>
+<li>登录账号 IP 不要经常变动</li>
+</ol>
+<p>这几点都会导致 FB 封账号，再严重一点 FB 会觉得你的应用分享过于频繁，会把你的应用也封了，而申诉都非常麻烦，尽量不要尝试。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文断断续续写了一两周，感觉还是没有把都要说的说明白，后续看看再来补充好了。</p>
+<p>如果对你有帮助，那么就最好不过了。</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>喝杯饮料</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/12/01/share-for-mobile-game/">游戏分享的问题</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Amnon 的个人博客">Amnon</a></p>
+        <p><span>本文字数:</span>1,681</p>
+        <p><span>发布时间:</span>2017年12月01日 - 18时36分</p>
+        <p><span>最后更新:</span>2019年06月17日 - 08时50分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/12/01/share-for-mobile-game/" title="游戏分享的问题">http://amnon.win/2017/12/01/share-for-mobile-game/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://amnon.win/2017/12/01/share-for-mobile-game/　　作者: Amnon" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/19/usefull-bash-set/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          常用的 Linux 命令（自己留档备用）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/23/ios-guide-tips/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS 开发向导</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见平台分享的要求"><span class="toc-number">2.1.</span> <span class="toc-text">常见平台分享的要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK-你是怎么接的"><span class="toc-number">2.2.</span> <span class="toc-text">SDK 你是怎么接的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我踩的坑"><span class="toc-number">2.3.</span> <span class="toc-text">我踩的坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Facebook-分享的坑"><span class="toc-number">2.4.</span> <span class="toc-text">Facebook 分享的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#官方提供的工具"><span class="toc-number">2.4.1.</span> <span class="toc-text">官方提供的工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分享有哪些方式"><span class="toc-number">2.4.2.</span> <span class="toc-text">分享有哪些方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有一些官方隐藏的坑"><span class="toc-number">2.4.3.</span> <span class="toc-text">有一些官方隐藏的坑</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'Maxize',
+      repo: 'maxize.github.io',
+      oauth: {
+        client_id: '5613b469a87638ba36f5',
+        client_secret: 'cabcaa615c452d2b0adbb909e2a50422ad52f988',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/12/19/usefull-bash-set/" title="上一篇: 常用的 Linux 命令（自己留档备用）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/11/23/ios-guide-tips/" title="下一篇: iOS 开发向导">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/how-to-resign-the-ipa/">利用 sigh 重签名 IPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/19/usefull-bash-set/">常用的 Linux 命令（自己留档备用）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/01/share-for-mobile-game/">游戏分享的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/23/ios-guide-tips/">iOS 开发向导</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/11/game-engine-architecture-display/">游戏引擎架构展示</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/the-problem-when-I-use-xcode/">使用 Xcode 遇到的问题集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/01/record-something-when-I-use-quick-cocos2dx-community/">记录我在使用 Quick-Cocos2dx-Community 的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-optimization-problem-I-has-did-before/">那些年我做过一些关于游戏的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-network-problem-I-has-encountered/">这些年我遇到过的网络问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/29/study-habit/">总结刘未鹏「学习习惯」系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/22/how-to-fetch-git-update-from-forking-reposistory/">同步更新 fork 的仓库最新的更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-packet-capture-in-android/">如何在 Android 上抓包（Socket 包）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-decompile-and-repack-apk/">如何反编译 APK 包和重打包</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/c-plus-plus-problems/">C++ 问题记录集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/osx-use-sublime/">Mac OSX 下的 Sublime Text3 与 命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/sublime-skill-guide-for-game-devloper/">Sublime Text3 的自我修养</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/how-to-action-tag/">Git tag 操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/21/the-plan-to-read-a-book/">草拟读书计划</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-python-to-resize-images/">使用 Python 批量调整图片大小</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-sips-to-resize-images/">Mac 使用 sips 操作你的图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/11/how-to-be-a-game-programmer/">如何成为一名合格的游戏程序员</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/10/fix-lua-cjson-to-resolve-backslash/">解决 Lua CJSON 无法解析单反斜杠 \ 和反斜杠加单引号 \'</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/chinese-copywriting-guidelines/">中文文案排版指北</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/lua-code-style/">项目代码规范指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/code-review-guide/">Code Review 指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/how-to-pull-the-remote-commit/">如何正确拉取 Git 更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/an-interesting-website-2/">一个神奇的网站（2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/how-to-reset-the-remote-commit/">如何撤销远程 Git 修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/an-interesting-website/">一个有趣的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/16/android-webview-tips/">android 之 webview 使用 tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/14/google-play-tips/">接入 Google 支付的问题汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/git-workflow-tutorial/">Git 的不完全指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/quick-cocos2dx-2-2-6-tips/">quick-cocos2dx-2.2.6-tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/how-to-use-BTSync-Resilio-Sync/">how to use BTSync(Resilio Sync)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/window-make-lua-env/">Windows 下搭建 Lua 环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/ios-developer-certificate/">iOS 开发者证书总结 in-house</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/sublimeTips-regular/">关于 Sublime 的 Tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/flash-android-CM13-for-I9300/">flash android CM13 for I9300（退役的三星 S3 复活了）</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 Amnon
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="#" target="_blank">amnon</a> by amnon
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">Geek 到访数:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <span class="post-count">, 统计：41.2k 字</span>
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-101964977-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?c170b2dcf076b3362efbc44a5b90c6a3";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

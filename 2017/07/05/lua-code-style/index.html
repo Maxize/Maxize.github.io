@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>项目代码规范指南 | Day Day Go</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="每个项目都有一套规范，而且期望所有人都按照这个规范来遵循。">
+<meta name="keywords" content="lua,code style">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目代码规范指南">
+<meta property="og:url" content="http://amnon.win/2017/07/05/lua-code-style/index.html">
+<meta property="og:site_name" content="Day Day Go">
+<meta property="og:description" content="每个项目都有一套规范，而且期望所有人都按照这个规范来遵循。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-17T08:50:41.241Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目代码规范指南">
+<meta name="twitter:description" content="每个项目都有一套规范，而且期望所有人都按照这个规范来遵循。">
+  
+    <link rel="alternative" href="/atom.xml" title="Day Day Go" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false,
+          search: true
+      }
+  </script>
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Amnon">Amnon</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+        
+        
+        <form id="search-form"> <!-- 搜索框相关 -->
+            <input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+        </form>
+        <div id="local-search-result"></div> <!-- 搜索结果区 -->
+        <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页 | Home</a></li>
+                        
+                            <li><a href="/archives">归档 | Archives</a></li>
+                        
+                            <li><a href="/about">关于 | About</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/60分钟入门/" style="font-size: 10px;">60分钟入门</a> <a href="/tags/APK/" style="font-size: 10px;">APK</a> <a href="/tags/Android/" style="font-size: 12.5px;">Android</a> <a href="/tags/BTSync/" style="font-size: 10px;">BTSync</a> <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Chinese/" style="font-size: 10px;">Chinese</a> <a href="/tags/Cocos2dx/" style="font-size: 10px;">Cocos2dx</a> <a href="/tags/Decompile/" style="font-size: 10px;">Decompile</a> <a href="/tags/Facebook/" style="font-size: 10px;">Facebook</a> <a href="/tags/Fork/" style="font-size: 10px;">Fork</a> <a href="/tags/Game-Programmer/" style="font-size: 10px;">Game Programmer</a> <a href="/tags/Games/" style="font-size: 10px;">Games</a> <a href="/tags/Git/" style="font-size: 20px;">Git</a> <a href="/tags/Guide/" style="font-size: 10px;">Guide</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Image/" style="font-size: 10px;">Image</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Lua-CJSON/" style="font-size: 10px;">Lua CJSON</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/OpenUDID/" style="font-size: 10px;">OpenUDID</a> <a href="/tags/Pilliow/" style="font-size: 10px;">Pilliow</a> <a href="/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Quick-Cocos2dx-Community/" style="font-size: 12.5px;">Quick-Cocos2dx-Community</a> <a href="/tags/Read/" style="font-size: 10px;">Read</a> <a href="/tags/Resilio/" style="font-size: 10px;">Resilio</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/Sublime-Text/" style="font-size: 10px;">Sublime Text</a> <a href="/tags/Sync/" style="font-size: 10px;">Sync</a> <a href="/tags/Tools/" style="font-size: 10px;">Tools</a> <a href="/tags/URL-Schemes/" style="font-size: 10px;">URL Schemes</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/checkout/" style="font-size: 10px;">checkout</a> <a href="/tags/code-review/" style="font-size: 10px;">code review</a> <a href="/tags/code-style/" style="font-size: 10px;">code style</a> <a href="/tags/copywriting/" style="font-size: 10px;">copywriting</a> <a href="/tags/git-flow/" style="font-size: 10px;">git-flow</a> <a href="/tags/google-play/" style="font-size: 10px;">google play</a> <a href="/tags/habit/" style="font-size: 10px;">habit</a> <a href="/tags/iOS/" style="font-size: 17.5px;">iOS</a> <a href="/tags/icon/" style="font-size: 10px;">icon</a> <a href="/tags/in-hourse/" style="font-size: 10px;">in-hourse</a> <a href="/tags/include/" style="font-size: 10px;">include</a> <a href="/tags/learn/" style="font-size: 10px;">learn</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/optimization/" style="font-size: 10px;">optimization</a> <a href="/tags/packet-capture/" style="font-size: 10px;">packet capture</a> <a href="/tags/pay/" style="font-size: 10px;">pay</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/quick2-2-6/" style="font-size: 10px;">quick2.2.6</a> <a href="/tags/resign/" style="font-size: 10px;">resign</a> <a href="/tags/sips/" style="font-size: 10px;">sips</a> <a href="/tags/skill/" style="font-size: 15px;">skill</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/study/" style="font-size: 10px;">study</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/sublime-text3/" style="font-size: 10px;">sublime text3</a> <a href="/tags/tag/" style="font-size: 10px;">tag</a> <a href="/tags/target/" style="font-size: 10px;">target</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/website/" style="font-size: 12.5px;">website</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/workflow/" style="font-size: 10px;">workflow</a> <a href="/tags/中文/" style="font-size: 10px;">中文</a> <a href="/tags/使用过程/" style="font-size: 10px;">使用过程</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/命令行/" style="font-size: 10px;">命令行</a> <a href="/tags/开发者证书/" style="font-size: 10px;">开发者证书</a> <a href="/tags/思考/" style="font-size: 10px;">思考</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+                    </div>
+                </section>
+                
+
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://maxize.github.io/">我的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.codingnow.com/">云风的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏 | Mind Hacks</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">移动前端开发攻城狮，这个人有严重的拖延症，记性差，脾气暴躁，晚睡癌，暂获好人卡无数，你该忽略他。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Amnon</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Amnon</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页 | Home</a></li>
+                
+                    <li><a href="/archives">归档 | Archives</a></li>
+                
+                    <li><a href="/about">关于 | About</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-lua-code-style" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/05/lua-code-style/" class="article-date">
+      <time datetime="2017-07-05T17:45:15.000Z" itemprop="datePublished">2017-07-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      项目代码规范指南
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Docs/">Docs</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code-style/">code style</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/">lua</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><ul>
+<li>代码文件以 <strong><code>.lua</code></strong> 后缀结尾</li>
+<li>代码文件保存为 <strong><code>utf-8 without bom</code></strong> 编码格式</li>
+<li>代码缩进为 <strong>4个空格</strong>，编辑器使用tab缩进的，请修改为 <em>tab = 4\</em>blank*</li>
+<li>每一行代码字符长度不超过 <strong>半个屏幕</strong>（以24寸屏为标准）。<em>翻译文件，自动生成文件除外</em></li>
+<li>代码 <strong>注释</strong> 的标准是 <strong>少而精</strong> ，主要针对<code>巧妙的</code>、<code>晦涩的</code>、<code>有趣的</code>、<code>重要的</code>地方加以注释。所提供的注释应该是解释代码 <strong>为什么这么写</strong> 以及 <strong>这段代码的目的</strong></li>
+<li><p>文件头信息</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- XXX.lua  文件名</span></span><br><span class="line"><span class="comment">-- Author: 作者</span></span><br><span class="line"><span class="comment">-- Data:   创建时间</span></span><br><span class="line"><span class="comment">-- Description:  作用描述</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写公共函数时（framework 目录下），提供 <strong>函数描述信息</strong>，便于以后使用 <a href="https://github.com/stevedonovan/ldoc" target="_blank" rel="noopener">LDoc</a> 进行文档生成，更多更详细的写法可以参考<a href="http://stevedonovan.github.io/ldoc/manual/doc.md.html" target="_blank" rel="noopener"> LDoc 的文档</a></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">---  XXX 简单描述</span></span><br><span class="line"><span class="comment">--  @param XX -- 参数</span></span><br><span class="line"><span class="comment">--  @param XX</span></span><br><span class="line"><span class="comment">--  @return   返回值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- foo explodes text.</span></span><br><span class="line"><span class="comment">-- It is a specialized splitting operation on a string.</span></span><br><span class="line"><span class="comment">-- @param text the string</span></span><br><span class="line"><span class="comment">-- @return a table of substrings</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">(text)</span></span></span><br><span class="line">....</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><ul>
+<li>命名以 <strong>简洁明了</strong> 为准，具备描述性，尽可能避免缩写</li>
+<li>命名选择优先 <strong>贴近项目</strong>，使用常见且通俗易懂的词汇术语，比如德州扑克相关术语</li>
+<li>属性命名选<code>名词</code>，方法函数选<code>动词</code>，布尔逻辑加<code>is</code></li>
+<li>文件名，采用 <strong>大驼峰式</strong> ，即所有单词首字母均大写，保持和代码内的类名\模块名一致，如：<code>FileName</code></li>
+<li>普通变量，命名采用 <strong>小驼峰式</strong>，即首个单词首字母小写，其他单词首字母大写，如：<code>firstName</code></li>
+<li>成员变量，命名采用 <strong>小驼峰式</strong>，加前缀 <strong>m_</strong>，如 <code>m_firstName</code></li>
+<li>类静态变量，命名采用 <strong>小驼峰式</strong>，加前缀 <strong>s_</strong>，如 <code>s_firstName</code></li>
+<li>全局变量，采用 <strong>全大写，加下划线</strong>，如 <code>APP_ID</code>（尽可能少用全局变量），禁止 <strong>下划线开头的全大写</strong>，如<code>_GLOBAL</code>，该方式为 Lua 内部使用，容易冲突</li>
+<li>普通函数，成员方法命名采用 <strong>小驼峰式</strong></li>
+<li>全局函数，采用 <strong>全小写，加下划线</strong>，如 <code>get_screen_width()</code>（配合当前引擎）</li>
+<li><p>常见<code>i,j,k,v</code>尽可能只用于for循环内部，<code>_</code>可用于占位符，表示不做处理</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">10</span> <span class="keyword">then</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="built_in">pairs</span>(t) <span class="keyword">then</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">ipairs</span>(t) <span class="keyword">then</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- _ 标识不做处理，只用来占位，但本质上还是可以使用的变量</span></span><br><span class="line"><span class="keyword">for</span> _, v <span class="keyword">in</span> <span class="built_in">pairs</span>(t) <span class="keyword">then</span>  </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UIEditor 控件命名规则</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Image            采用 imgXxx</span><br><span class="line">Button           采用 btnXxx</span><br><span class="line">Text             采用 txXxx</span><br><span class="line">RadioButton      采用 rbXxx</span><br><span class="line">RadioButtonGroup 采用 rbGroupXxx</span><br><span class="line">CheckBox         采用 cBoxXxx</span><br><span class="line">CheckBoxGroup    采用 cBoxGroupXxx</span><br><span class="line">TextView         采用 tvXxx</span><br><span class="line">EditText         采用 etTxXxx</span><br><span class="line">EditTextView     采用 etTvXxx</span><br><span class="line">View             采用 viewXxx</span><br><span class="line">ListView         采用 lvXxx</span><br><span class="line">ScrollerView     采用 scrViewXxx</span><br><span class="line">TableView        采用 tabViewXxx</span><br><span class="line">Slider           采用 sliderXx</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">任何地方命名禁止使用 arg，该名字在旧版 lua（&lt;5.1) 中用于提供可变变量的支持（高版本 lua 在编译时可以决定是否兼容此特性）。</span><br></pre></td></tr></table></figure>
+<h2 id="Lua-书写"><a href="#Lua-书写" class="headerlink" title="Lua 书写"></a>Lua 书写</h2><ul>
+<li>尽可能使用 <code>local</code> 修饰变量；存取更快，作用域外自动释放内存，不污染全局命名空间</li>
+<li><p>使用 <code>or</code> 做默认值实现，范式：<code>param = param or defaultValue</code></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">(value)</span></span></span><br><span class="line">    value = value <span class="keyword">or</span> &#123;&#125;</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单行注释用<code>--</code>，块注释用<code>--[[ --]]</code></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 后面跟一个空格</span></span><br><span class="line"><span class="comment">-- line comment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--[[</span></span><br><span class="line"><span class="comment">    block comment</span></span><br><span class="line"><span class="comment">--]]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串常用双引号<code>&quot; &quot;</code>，需要大量保留书写格式的文本可用<code>[[ ]]</code></p>
+</li>
+<li><p>使用表的构造器模式来初始化表，相对减少部分 <strong>重新哈希</strong> 的消耗；（注意缩进规范）</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;</span><br><span class="line">    a=<span class="number">1</span>,</span><br><span class="line">    b=<span class="number">1</span>, </span><br><span class="line">    c=<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">local</span> t = &#123; <span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="keyword">local</span> t =&#123;&#125;</span><br><span class="line">t.a = <span class="number">1</span></span><br><span class="line">t.b = <span class="number">1</span></span><br><span class="line">t.c = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- very bad</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">5</span> <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">table</span>.<span class="built_in">insert</span>(t, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>表中插入数据，除非特殊情况，一般 <strong>少用</strong> <code>table.insert</code></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 常见情况不推荐使用，高层函数调用，性能受影响</span></span><br><span class="line"><span class="built_in">table</span>.<span class="built_in">insert</span>(t, value)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐一, 可读性与性能平衡</span></span><br><span class="line">t[#t+<span class="number">1</span>] = value</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐二，做大规模频繁（循环）插入时使用, 性能最好</span></span><br><span class="line"><span class="keyword">local</span> index = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">100000000</span> <span class="keyword">then</span></span><br><span class="line">    t[index] = value</span><br><span class="line">    index = index + <span class="number">1</span> </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>表中元素使用 <strong><code>,</code></strong> 分隔，不要用 <strong><code>;</code></strong></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;</span><br><span class="line">    a = <span class="number">1</span>,</span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;</span><br><span class="line">    a = <span class="number">1</span>;</span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数创建使用 <code>function name(...) ... end</code>的形式</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 全局函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">global_func</span><span class="params">( )</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 成员方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ClassName:func</span><span class="params">( )</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 局部函数</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">func</span><span class="params">( )</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数调用使用 <code>:</code>，注意函数内使用的<code>self</code>是不是真正的 self（禁止为 self 重新赋值）</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassName:func()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>简短的函数可以写在一行，若写成多行，注意缩进</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span></span>  <span class="keyword">return</span> <span class="literal">true</span> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span></span> <span class="keyword">return</span> <span class="literal">true</span> </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span> <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单行执行语句的块可以写在一行，若写成多行，注意缩进</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--good</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> a <span class="keyword">then</span> <span class="keyword">return</span> b <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--good</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> a <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单路<code>if</code>判断，可转为 bool 判断，效率可读性均有提高</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="keyword">if</span> aaa <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">if</span> bbb <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> ccc <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">if</span> ddd <span class="keyword">then</span></span><br><span class="line">                xxx</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">if</span> aaa <span class="keyword">and</span> bbb <span class="keyword">and</span> ccc <span class="keyword">and</span> ddd <span class="keyword">then</span></span><br><span class="line">    xxx</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无限循环使用 <code>while true do ... end</code>，不使用 <code>repeat ... until false</code></p>
+</li>
+<li><p>除非必要，一般不用在条件表达式中与 <code>true</code>、<code>false</code>、<code>nil</code> 进行直接判断</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">exp</span> <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">exp</span> <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">type</span>(<span class="built_in">exp</span>) == <span class="string">"boolean"</span> <span class="keyword">and</span> <span class="built_in">exp</span> == <span class="literal">true</span> <span class="keyword">then</span>   <span class="comment">-- 明确与true进行判断</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">exp</span> == <span class="literal">nil</span> <span class="keyword">then</span>   <span class="comment">-- 明确与nil值进行判断</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>and</code> 和 <code>or</code> 是 <strong>短路求值</strong>，意味着前面的判断通过，后面的判断表达式不会进行求值，所以不要在多层条件表达式里写逻辑</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="number">2</span> &lt; <span class="number">1</span> <span class="keyword">and</span> <span class="number">2</span> &lt; <span class="number">3</span> <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 2&lt;1判断为false，后面的 2&lt;3 不会运行</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="number">2</span> &gt; <span class="number">1</span> <span class="keyword">or</span> <span class="number">2</span> &gt; <span class="number">3</span> <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 2&gt;1判断为true，后面的2&gt;3不会运行</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于多级和超长逻辑判断，用括号与缩进标明层级，逻辑运算符放 <strong>行首</strong>。（当然，能简化逻辑判断最好）</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">if</span> ((xxx <span class="keyword">and</span> yyy) <span class="keyword">or</span> (xxx <span class="keyword">and</span> zzz)) <span class="keyword">and</span> xxx </span><br><span class="line">    <span class="keyword">or</span> (yyy <span class="keyword">and</span> zzz) <span class="keyword">then</span></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="keyword">if</span> ((xxx <span class="keyword">and</span> yyy) <span class="keyword">or</span> (xxx <span class="keyword">and</span> zzz) <span class="keyword">and</span> xxx) <span class="keyword">or</span> (yyy <span class="keyword">and</span> zzz) <span class="keyword">then</span></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>变量局部化</p>
+<ul>
+<li>包含已定义的全局变量比如常用 math, table 等等（大于 2 次以上的使用就认为有必要）<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">sin</span> = <span class="built_in">math</span>.<span class="built_in">sin</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">localized</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">100</span> <span class="keyword">do</span></span><br><span class="line">        x = x + <span class="built_in">sin</span>(i)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">nonlocal</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">100</span> <span class="keyword">do</span></span><br><span class="line">        x = x + <span class="built_in">math</span>.<span class="built_in">sin</span>(i)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>长字符串的拼接建议采用 table 才处理</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- good</span></span><br><span class="line"><span class="keyword">local</span> s = <span class="string">''</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>,<span class="number">300000</span> <span class="keyword">do</span></span><br><span class="line">    t[#t + <span class="number">1</span>] = <span class="string">'a'</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">s = <span class="built_in">table</span>.<span class="built_in">concat</span>( t, <span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- bad</span></span><br><span class="line"><span class="keyword">local</span> s = <span class="string">''</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>,<span class="number">300000</span> <span class="keyword">do</span></span><br><span class="line">    s = s .. <span class="string">'a'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Lua 行尾不建议加上分号，保持 Lua 本身的规范</p>
+</li>
+</ul>
+<h2 id="项目规范"><a href="#项目规范" class="headerlink" title="项目规范"></a>项目规范</h2><ul>
+<li><p>UI编辑器设置生成 lua 文件路径为 <code>Resource/scripts/app/layout</code></p>
+</li>
+<li><p>项目内方法 <strong>分类命名</strong></p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">点击事件：onXXXClick();</span><br><span class="line">网络请求：requestXXX();</span><br><span class="line">网络响应：onXXXresponse();</span><br><span class="line">原生回调：onNativeXXX();</span><br><span class="line">消息回调：onEventXXX();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件 require 其他模块顺序是 <strong>engine-&gt;framework-&gt;app</strong>，最后引用同目录模块</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"engine/xxx/xxx"</span>)</span><br><span class="line"><span class="built_in">require</span>(<span class="string">"framework/xxx/xxx/xxx"</span>)</span><br><span class="line"><span class="built_in">require</span>(<span class="string">"app/base/xxx"</span>)</span><br><span class="line"><span class="built_in">require</span>(<span class="string">"app/xxx"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>消息定义统一到 <code>eventCommand.lua</code> 文件中，不在直接定义于模块内</p>
+</li>
+<li>针对需要立即使用的模块在 <strong>文件头</strong> require 进来，其他的可放在 <code>runInNextFrame</code> 中延迟加载</li>
+<li>对引擎模块的扩展不能直接在引擎层（ engine 目录下）修改，需要写到 <strong>framework</strong> 目录下</li>
+<li>外部访问某模块内的成员变量需使用 <strong>getXXX，setXXX</strong>，不能直接访问。可使用全局 <code>addProperty</code> 函数简化代码实现</li>
+<li>编辑器以及其他工具生成的配置文件（布局文件，拼图文件）需返回由 <strong>local</strong> 修饰的表</li>
+<li>针对网络回调中过多的数据传递，可使用 <strong>table</strong> 包裹参数，避免方法定义过长，控制参数的数量</li>
+<li>函数内使用的数据尽可能通过参数传递进来，而不是直接访问成员变量/全局变量；提高函数本身的模块性</li>
+<li><p>项目内存在多个数据类用于模块间共享数据，新增数据需要分清属性放于正确文件中</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">globalInfo.lua     <span class="comment">-- 整个游戏共享</span></span><br><span class="line">accountInfo.lua    <span class="comment">-- 账号相关数据，切换账号，数据失效</span></span><br><span class="line">roomInfo.lua       <span class="comment">-- 房间相关数据， 切换房间，数据失效</span></span><br><span class="line"></span><br><span class="line">clientConfig.lua     <span class="comment">-- 客户端相关配置常量</span></span><br><span class="line">serverConfig.lua     <span class="comment">-- 服务器相关配置常量</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不要随意使用 <strong>magic number</strong>，有意义的数字需要用变量/常量定义，至少也要在旁边加上注释</p>
+</li>
+<li>布局文件名，应与场景文件名一致最后加 UI 进行区分，如某弹窗名称为：<code>FileNamePop</code>，对应布局文件名称应为：<code>FileNamePopUI</code></li>
+<li><p>翻译需要注意一下几点：</p>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>)翻译中出现多个%s加上序号。(原因：多语言翻译有时顺序可能会有改变)</span><br><span class="line">    举例：</span><br><span class="line">    <span class="comment">-- bad</span></span><br><span class="line">    <span class="string">"%s對%s優雅的拋了個真心玫瑰"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- good</span></span><br><span class="line">    <span class="string">"#s1對#s2優雅的拋了個真心玫瑰"</span>;</span><br><span class="line">    </span><br><span class="line"><span class="number">2</span>)涉及到日期的文字，%s 也需要加上序号，并于翻译文字后面加上实例注释。(原因，多语言日期顺序与中文不一样)</span><br><span class="line">    <span class="comment">-- bad</span></span><br><span class="line">    <span class="string">"%s月%s日%s:%s"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- good</span></span><br><span class="line">    <span class="string">"#s1月#s2日#s3:#s4"</span>;  <span class="comment">-- 12月1日 12:00</span></span><br><span class="line">    </span><br><span class="line"><span class="number">3</span>)避免出现这样一句话拆分的翻译，这样翻译完全无法翻译了，改为一整句.</span><br><span class="line">    <span class="comment">--bad</span></span><br><span class="line">    str_report_msg1                      = <span class="string">"現在比賽"</span></span><br><span class="line">    str_report_msg2                      = <span class="string">"分鐘，還剩"</span></span><br><span class="line">    str_report_msg3                      = <span class="string">"名選手，您現在是第"</span></span><br><span class="line">    str_report_msg4                      = <span class="string">"名。"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">--good</span></span><br><span class="line">    現在比賽#s1分鐘，還剩#s2名選手，您現在是第#s3名。</span><br><span class="line">    </span><br><span class="line"><span class="number">4</span>)涉及到比赛，排行榜等含有名次的翻译，需要考虑到多语言中名次非纯数字，如：<span class="number">1</span>st，<span class="number">2</span>nd，<span class="number">3</span>rd，<span class="number">4</span>th</span><br><span class="line">    <span class="comment">--bad</span></span><br><span class="line">    <span class="string">"恭喜您获得本场比赛%d名"</span>   <span class="comment">-- 不适配字符串</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">--good</span></span><br><span class="line">    <span class="string">"恭喜您获得本场比赛%s名"</span>   <span class="comment">-- 适配字符串</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>XxxManager 作为成员变量时，命名统一为 m_xxxManager 的形式( m_manager 全名，首字母小写)，方便追踪代码。</p>
+</li>
+<li>Git 提交信息注明类型：<ul>
+<li>feat：新功能（feature）</li>
+<li>fix：修补 bug</li>
+<li>docs：文档（ documentation ）</li>
+<li>style： 格式（不影响代码运行的变动）</li>
+<li>refactor：重构（即不是新增功能，也不是修改 bug 的代码变动）</li>
+<li>test：增加测试</li>
+<li>chore：构建过程或辅助工具的变动</li>
+<li>cr：code review 修改</li>
+</ul>
+</li>
+</ul>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>喝杯饮料</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/07/05/lua-code-style/">项目代码规范指南</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Amnon 的个人博客">Amnon</a></p>
+        <p><span>本文字数:</span>2,776</p>
+        <p><span>发布时间:</span>2017年07月05日 - 17时45分</p>
+        <p><span>最后更新:</span>2019年06月17日 - 08时50分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/07/05/lua-code-style/" title="项目代码规范指南">http://amnon.win/2017/07/05/lua-code-style/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://amnon.win/2017/07/05/lua-code-style/　　作者: Amnon" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/07/07/chinese-copywriting-guidelines/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          中文文案排版指北
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/05/code-review-guide/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Code Review 指南</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#格式"><span class="toc-number">1.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名"><span class="toc-number">2.</span> <span class="toc-text">命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua-书写"><span class="toc-number">3.</span> <span class="toc-text">Lua 书写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目规范"><span class="toc-number">4.</span> <span class="toc-text">项目规范</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'Maxize',
+      repo: 'maxize.github.io',
+      oauth: {
+        client_id: '5613b469a87638ba36f5',
+        client_secret: 'cabcaa615c452d2b0adbb909e2a50422ad52f988',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/07/07/chinese-copywriting-guidelines/" title="上一篇: 中文文案排版指北">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/07/05/code-review-guide/" title="下一篇: Code Review 指南">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/how-to-resign-the-ipa/">利用 sigh 重签名 IPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/19/usefull-bash-set/">常用的 Linux 命令（自己留档备用）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/01/share-for-mobile-game/">游戏分享的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/23/ios-guide-tips/">iOS 开发向导</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/11/game-engine-architecture-display/">游戏引擎架构展示</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/the-problem-when-I-use-xcode/">使用 Xcode 遇到的问题集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/01/record-something-when-I-use-quick-cocos2dx-community/">记录我在使用 Quick-Cocos2dx-Community 的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-optimization-problem-I-has-did-before/">那些年我做过一些关于游戏的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-network-problem-I-has-encountered/">这些年我遇到过的网络问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/29/study-habit/">总结刘未鹏「学习习惯」系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/22/how-to-fetch-git-update-from-forking-reposistory/">同步更新 fork 的仓库最新的更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-packet-capture-in-android/">如何在 Android 上抓包（Socket 包）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-decompile-and-repack-apk/">如何反编译 APK 包和重打包</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/c-plus-plus-problems/">C++ 问题记录集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/osx-use-sublime/">Mac OSX 下的 Sublime Text3 与 命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/sublime-skill-guide-for-game-devloper/">Sublime Text3 的自我修养</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/how-to-action-tag/">Git tag 操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/21/the-plan-to-read-a-book/">草拟读书计划</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-python-to-resize-images/">使用 Python 批量调整图片大小</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-sips-to-resize-images/">Mac 使用 sips 操作你的图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/11/how-to-be-a-game-programmer/">如何成为一名合格的游戏程序员</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/10/fix-lua-cjson-to-resolve-backslash/">解决 Lua CJSON 无法解析单反斜杠 \ 和反斜杠加单引号 \'</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/chinese-copywriting-guidelines/">中文文案排版指北</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/lua-code-style/">项目代码规范指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/code-review-guide/">Code Review 指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/how-to-pull-the-remote-commit/">如何正确拉取 Git 更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/an-interesting-website-2/">一个神奇的网站（2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/how-to-reset-the-remote-commit/">如何撤销远程 Git 修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/an-interesting-website/">一个有趣的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/16/android-webview-tips/">android 之 webview 使用 tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/14/google-play-tips/">接入 Google 支付的问题汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/git-workflow-tutorial/">Git 的不完全指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/quick-cocos2dx-2-2-6-tips/">quick-cocos2dx-2.2.6-tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/how-to-use-BTSync-Resilio-Sync/">how to use BTSync(Resilio Sync)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/window-make-lua-env/">Windows 下搭建 Lua 环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/ios-developer-certificate/">iOS 开发者证书总结 in-house</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/sublimeTips-regular/">关于 Sublime 的 Tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/flash-android-CM13-for-I9300/">flash android CM13 for I9300（退役的三星 S3 复活了）</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 Amnon
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="#" target="_blank">amnon</a> by amnon
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">Geek 到访数:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <span class="post-count">, 统计：41.2k 字</span>
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-101964977-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?c170b2dcf076b3362efbc44a5b90c6a3";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

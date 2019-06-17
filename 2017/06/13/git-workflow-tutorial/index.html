@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Git 的不完全指南 | Day Day Go</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="git 工作流使用提示">
+<meta name="keywords" content="Git,workflow,git-flow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 的不完全指南">
+<meta property="og:url" content="http://amnon.win/2017/06/13/git-workflow-tutorial/index.html">
+<meta property="og:site_name" content="Day Day Go">
+<meta property="og:description" content="git 工作流使用提示">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-17T08:50:41.229Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 的不完全指南">
+<meta name="twitter:description" content="git 工作流使用提示">
+  
+    <link rel="alternative" href="/atom.xml" title="Day Day Go" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false,
+          search: true
+      }
+  </script>
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Amnon">Amnon</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+        
+        
+        <form id="search-form"> <!-- 搜索框相关 -->
+            <input type="text" id="local-search-input" name="q" results="0" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i> <!-- 清空/重置搜索框 -->
+        </form>
+        <div id="local-search-result"></div> <!-- 搜索结果区 -->
+        <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页 | Home</a></li>
+                        
+                            <li><a href="/archives">归档 | Archives</a></li>
+                        
+                            <li><a href="/about">关于 | About</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/60分钟入门/" style="font-size: 10px;">60分钟入门</a> <a href="/tags/APK/" style="font-size: 10px;">APK</a> <a href="/tags/Android/" style="font-size: 12.5px;">Android</a> <a href="/tags/BTSync/" style="font-size: 10px;">BTSync</a> <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Chinese/" style="font-size: 10px;">Chinese</a> <a href="/tags/Cocos2dx/" style="font-size: 10px;">Cocos2dx</a> <a href="/tags/Decompile/" style="font-size: 10px;">Decompile</a> <a href="/tags/Facebook/" style="font-size: 10px;">Facebook</a> <a href="/tags/Fork/" style="font-size: 10px;">Fork</a> <a href="/tags/Game-Programmer/" style="font-size: 10px;">Game Programmer</a> <a href="/tags/Games/" style="font-size: 10px;">Games</a> <a href="/tags/Git/" style="font-size: 20px;">Git</a> <a href="/tags/Guide/" style="font-size: 10px;">Guide</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Image/" style="font-size: 10px;">Image</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Lua-CJSON/" style="font-size: 10px;">Lua CJSON</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/OpenUDID/" style="font-size: 10px;">OpenUDID</a> <a href="/tags/Pilliow/" style="font-size: 10px;">Pilliow</a> <a href="/tags/Plan/" style="font-size: 10px;">Plan</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Quick-Cocos2dx-Community/" style="font-size: 12.5px;">Quick-Cocos2dx-Community</a> <a href="/tags/Read/" style="font-size: 10px;">Read</a> <a href="/tags/Resilio/" style="font-size: 10px;">Resilio</a> <a href="/tags/Share/" style="font-size: 10px;">Share</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/Sublime-Text/" style="font-size: 10px;">Sublime Text</a> <a href="/tags/Sync/" style="font-size: 10px;">Sync</a> <a href="/tags/Tools/" style="font-size: 10px;">Tools</a> <a href="/tags/URL-Schemes/" style="font-size: 10px;">URL Schemes</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/checkout/" style="font-size: 10px;">checkout</a> <a href="/tags/code-review/" style="font-size: 10px;">code review</a> <a href="/tags/code-style/" style="font-size: 10px;">code style</a> <a href="/tags/copywriting/" style="font-size: 10px;">copywriting</a> <a href="/tags/git-flow/" style="font-size: 10px;">git-flow</a> <a href="/tags/google-play/" style="font-size: 10px;">google play</a> <a href="/tags/habit/" style="font-size: 10px;">habit</a> <a href="/tags/iOS/" style="font-size: 17.5px;">iOS</a> <a href="/tags/icon/" style="font-size: 10px;">icon</a> <a href="/tags/in-hourse/" style="font-size: 10px;">in-hourse</a> <a href="/tags/include/" style="font-size: 10px;">include</a> <a href="/tags/learn/" style="font-size: 10px;">learn</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/optimization/" style="font-size: 10px;">optimization</a> <a href="/tags/packet-capture/" style="font-size: 10px;">packet capture</a> <a href="/tags/pay/" style="font-size: 10px;">pay</a> <a href="/tags/performance/" style="font-size: 10px;">performance</a> <a href="/tags/quick2-2-6/" style="font-size: 10px;">quick2.2.6</a> <a href="/tags/resign/" style="font-size: 10px;">resign</a> <a href="/tags/sips/" style="font-size: 10px;">sips</a> <a href="/tags/skill/" style="font-size: 15px;">skill</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/study/" style="font-size: 10px;">study</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/sublime-text3/" style="font-size: 10px;">sublime text3</a> <a href="/tags/tag/" style="font-size: 10px;">tag</a> <a href="/tags/target/" style="font-size: 10px;">target</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/website/" style="font-size: 12.5px;">website</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/workflow/" style="font-size: 10px;">workflow</a> <a href="/tags/中文/" style="font-size: 10px;">中文</a> <a href="/tags/使用过程/" style="font-size: 10px;">使用过程</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/命令行/" style="font-size: 10px;">命令行</a> <a href="/tags/开发者证书/" style="font-size: 10px;">开发者证书</a> <a href="/tags/思考/" style="font-size: 10px;">思考</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+                    </div>
+                </section>
+                
+
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://maxize.github.io/">我的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.codingnow.com/">云风的 BLOG</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏 | Mind Hacks</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">移动前端开发攻城狮，这个人有严重的拖延症，记性差，脾气暴躁，晚睡癌，暂获好人卡无数，你该忽略他。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">Amnon</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">Amnon</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">总以为自己记性好，可惜敌不过昨日</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页 | Home</a></li>
+                
+                    <li><a href="/archives">归档 | Archives</a></li>
+                
+                    <li><a href="/about">关于 | About</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/maxize" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/ma-xing-ze" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/1878814260/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/108309905514233834903" title="google">google</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-git-workflow-tutorial" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/13/git-workflow-tutorial/" class="article-date">
+      <time datetime="2017-06-13T11:35:38.000Z" itemprop="datePublished">2017-06-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git 的不完全指南
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git-flow/">git-flow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/workflow/">workflow</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Git-是什么？"><a href="#Git-是什么？" class="headerlink" title="Git 是什么？"></a>Git 是什么？</h2><h2 id="Git-的常用命令"><a href="#Git-的常用命令" class="headerlink" title="Git 的常用命令"></a>Git 的常用命令</h2><h2 id="Git-工作流"><a href="#Git-工作流" class="headerlink" title="Git 工作流"></a>Git 工作流</h2>
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>喝杯饮料</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/06/13/git-workflow-tutorial/">Git 的不完全指南</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Amnon 的个人博客">Amnon</a></p>
+        <p><span>本文字数:</span>14</p>
+        <p><span>发布时间:</span>2017年06月13日 - 11时35分</p>
+        <p><span>最后更新:</span>2019年06月17日 - 08时50分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/06/13/git-workflow-tutorial/" title="Git 的不完全指南">http://amnon.win/2017/06/13/git-workflow-tutorial/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://amnon.win/2017/06/13/git-workflow-tutorial/　　作者: Amnon" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/06/14/google-play-tips/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          接入 Google 支付的问题汇总
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/13/quick-cocos2dx-2-2-6-tips/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">quick-cocos2dx-2.2.6-tips</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-是什么？"><span class="toc-number">1.</span> <span class="toc-text">Git 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-的常用命令"><span class="toc-number">2.</span> <span class="toc-text">Git 的常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-工作流"><span class="toc-number">3.</span> <span class="toc-text">Git 工作流</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'Maxize',
+      repo: 'maxize.github.io',
+      oauth: {
+        client_id: '5613b469a87638ba36f5',
+        client_secret: 'cabcaa615c452d2b0adbb909e2a50422ad52f988',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/06/14/google-play-tips/" title="上一篇: 接入 Google 支付的问题汇总">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/06/13/quick-cocos2dx-2-2-6-tips/" title="下一篇: quick-cocos2dx-2.2.6-tips">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/how-to-resign-the-ipa/">利用 sigh 重签名 IPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/19/usefull-bash-set/">常用的 Linux 命令（自己留档备用）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/01/share-for-mobile-game/">游戏分享的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/23/ios-guide-tips/">iOS 开发向导</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/11/game-engine-architecture-display/">游戏引擎架构展示</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/the-problem-when-I-use-xcode/">使用 Xcode 遇到的问题集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/01/record-something-when-I-use-quick-cocos2dx-community/">记录我在使用 Quick-Cocos2dx-Community 的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-optimization-problem-I-has-did-before/">那些年我做过一些关于游戏的性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/the-network-problem-I-has-encountered/">这些年我遇到过的网络问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/29/study-habit/">总结刘未鹏「学习习惯」系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/22/how-to-fetch-git-update-from-forking-reposistory/">同步更新 fork 的仓库最新的更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-packet-capture-in-android/">如何在 Android 上抓包（Socket 包）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/how-to-decompile-and-repack-apk/">如何反编译 APK 包和重打包</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/c-plus-plus-problems/">C++ 问题记录集锦</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/osx-use-sublime/">Mac OSX 下的 Sublime Text3 与 命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/sublime-skill-guide-for-game-devloper/">Sublime Text3 的自我修养</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/how-to-action-tag/">Git tag 操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/21/the-plan-to-read-a-book/">草拟读书计划</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-python-to-resize-images/">使用 Python 批量调整图片大小</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/use-sips-to-resize-images/">Mac 使用 sips 操作你的图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/11/how-to-be-a-game-programmer/">如何成为一名合格的游戏程序员</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/10/fix-lua-cjson-to-resolve-backslash/">解决 Lua CJSON 无法解析单反斜杠 \ 和反斜杠加单引号 \'</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/07/chinese-copywriting-guidelines/">中文文案排版指北</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/lua-code-style/">项目代码规范指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/code-review-guide/">Code Review 指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/how-to-pull-the-remote-commit/">如何正确拉取 Git 更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/an-interesting-website-2/">一个神奇的网站（2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/how-to-reset-the-remote-commit/">如何撤销远程 Git 修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/an-interesting-website/">一个有趣的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/16/android-webview-tips/">android 之 webview 使用 tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/14/google-play-tips/">接入 Google 支付的问题汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/git-workflow-tutorial/">Git 的不完全指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/13/quick-cocos2dx-2-2-6-tips/">quick-cocos2dx-2.2.6-tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/how-to-use-BTSync-Resilio-Sync/">how to use BTSync(Resilio Sync)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/window-make-lua-env/">Windows 下搭建 Lua 环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/ios-developer-certificate/">iOS 开发者证书总结 in-house</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/sublimeTips-regular/">关于 Sublime 的 Tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/flash-android-CM13-for-I9300/">flash android CM13 for I9300（退役的三星 S3 复活了）</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 Amnon
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="#" target="_blank">amnon</a> by amnon
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">Geek 到访数:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <span class="post-count">, 统计：41.2k 字</span>
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-101964977-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?c170b2dcf076b3362efbc44a5b90c6a3";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
