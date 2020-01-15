@@ -42,5 +42,3 @@ AAR 是 Google 专门为 Android Studio 推出的一种库文件格式，用于�
 
 * [dandar3](https://github.com/dandar3) 整合了 google 提供的很多相关的库
 
-
-
